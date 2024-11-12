@@ -4,9 +4,8 @@
     dest: /etc/yum.repos.d/mongodb.repo
 
 - name: install mongodb
-  ansible.builtin.package:
-    name: mongodb-org-y
-    state: present 
+  ansible.builtin.command: dnf install mongodb-org -y 
+    
 
 - name: start and enable mongodb
   ansible.builtin.service:
