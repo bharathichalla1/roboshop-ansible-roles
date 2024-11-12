@@ -8,13 +8,13 @@
     name: mongodb-org-shell
     state: present 
 
-- name: get the entries count
-  ansible.builtin.command: mongo --host mongodb.cbpdevops.store --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+- name: "get the {{component}} entries count"
+  ansible.builtin.shell: mongo --host mongodb.cbpdevops.store --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
   register: entries_count
   when: component == "catalogue"
 
-- name: get the entries count
-  ansible.builtin.command:  mongo --host mongodb.cbpdevops.store --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+- name: "get the {{component}} entries count"
+  ansible.builtin.shell: mongo --host mongodb.cbpdevops.store --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: entries_count
   when: component == "user"  
 
@@ -23,7 +23,7 @@
     #  msg: "product count: {{product_count}}" 
 
 - name: "load {{component}} data"
-  ansible.builtin.command: "mongo --host mongodb.cbpdevops.store < /app/schema/{{component}}.js"
+  ansible.builtin.shell: "mongo --host mongodb.cbpdevops.store < /app/schema/{{component}}.js"
   when: entries_count.stdout == "0"
 
  
